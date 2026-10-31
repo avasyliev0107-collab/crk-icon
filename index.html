@@ -1,13 +1,53 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ЦРК — значок застосунку</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#03A67D">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="ЦРК">
+  <meta name="description" content="Збір даних ЦРК — виробництво та БТК">
+  <title>ЦРК — Вхід</title>
+  <link rel="apple-touch-icon" sizes="512x512" href="./crk_icon_512.png">
+  <link rel="icon" type="image/png" href="./crk_icon_512.png">
+  <style>
+    :root {color-scheme:light; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;min-height:100dvh;display:grid;place-items:center;background:#f0f5f3;color:#18342b;padding:24px}
+    main{width:min(100%,390px);background:#fff;border-radius:24px;padding:28px 24px;text-align:center;box-shadow:0 12px 34px rgba(0,60,43,.11)}
+    img{width:112px;height:112px;border-radius:24px;object-fit:cover}h1{font-size:25px;margin:14px 0 4px}p{font-size:15px;line-height:1.5;color:#52675e;margin:8px 0 18px}
+    button{border:0;border-radius:13px;background:#03a67d;color:#fff;padding:15px 20px;font-size:17px;font-weight:650;width:100%;cursor:pointer}button:disabled{opacity:.55}small{display:block;font-size:12px;line-height:1.5;color:#778780;margin-top:16px}
+  </style>
 </head>
 <body>
-  <h2>Збір даних ЦРК</h2>
-  <img src="crk_icon_512.png" alt="ЦРК" width="150">
+  <main>
+    <img src="./crk_icon_512.png" alt="Значок ЦРК" width="112" height="112">
+    <h1>Збір даних ЦРК</h1>
+    <p id="message">Для роботи відкрийте застосунок ЦРК.</p>
+    <button id="open" type="button">Відкрити ЦРК</button>
+    <small>На iPhone: Safari → Поділитися → На початковий екран → Додати. Значок буде підставлено автоматично.</small>
+  </main>
+  <script>
+    'use strict';
+    // ВСТАВТЕ ПОСИЛАННЯ РОБОЧОГО РОЗГОРТАННЯ GOOGLE APPS SCRIPT, ЯКЕ ЗАКІНЧУЄТЬСЯ НА /exec.
+    const CRK_APP_URL = 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_EXEC_URL_HERE';
+    const validUrl = /^https:\/\/script\.google\.com\/macros\/s\/[^/?#]+\/exec(?:[?#].*)?$/.test(CRK_APP_URL);
+    const openButton = document.getElementById('open');
+    const message = document.getElementById('message');
+    function openCrk() {
+      if (!validUrl) {
+        message.textContent = 'Спочатку вставте посилання /exec у файлі index.html (CRK_APP_URL) та опублікуйте його на GitHub Pages.';
+        return;
+      }
+      window.location.assign(CRK_APP_URL);
+    }
+    openButton.addEventListener('click', openCrk);
+    if (!validUrl) {
+      message.textContent = 'Адресу застосунку ще не налаштовано.';
+    } else if (window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches) {
+      // Лише після запуску з іконки на початковому екрані; під час встановлення в Safari редиректу немає.
+      openCrk();
+    }
+  </script>
 </body>
 </html>
